@@ -23,42 +23,42 @@ from utils import nearest_neighbors, get_topic_coherence, get_topic_diversity
 parser = argparse.ArgumentParser(description='The Embedded Topic Model')
 
 ### data and file related arguments
-parser.add_argument('--dataset', type=str, default='20ng', help='name of corpus')
-parser.add_argument('--data_path', type=str, default='data/20ng', help='directory containing data')
-parser.add_argument('--emb_path', type=str, default='data/20ng_embeddings.txt', help='directory containing word embeddings')
-parser.add_argument('--save_path', type=str, default='./results', help='path to save results')
-parser.add_argument('--batch_size', type=int, default=1000, help='input batch size for training')
+dataset ='ah20k'
+data_path ='data/ah20k'
+emb_path ='data/ah20k_embeddings.txt'
+save_path ='./results'
+batch_size =1000
 
 ### model-related arguments
-parser.add_argument('--num_topics', type=int, default=50, help='number of topics')
-parser.add_argument('--rho_size', type=int, default=300, help='dimension of rho')
-parser.add_argument('--emb_size', type=int, default=300, help='dimension of embeddings')
-parser.add_argument('--t_hidden_size', type=int, default=800, help='dimension of hidden space of q(theta)')
-parser.add_argument('--theta_act', type=str, default='relu', help='tanh, softplus, relu, rrelu, leakyrelu, elu, selu, glu)')
-parser.add_argument('--train_embeddings', type=int, default=0, help='whether to fix rho or train it')
+num_topics =50
+rho_size =300
+emb_size =300
+t_hidden_size =800
+theta_act ='relu'
+train_embeddings =0
 
 ### optimization-related arguments
-parser.add_argument('--lr', type=float, default=0.005, help='learning rate')
-parser.add_argument('--lr_factor', type=float, default=4.0, help='divide learning rate by this...')
-parser.add_argument('--epochs', type=int, default=20, help='number of epochs to train...150 for 20ng 100 for others')
-parser.add_argument('--mode', type=str, default='train', help='train or eval model')
-parser.add_argument('--optimizer', type=str, default='adam', help='choice of optimizer')
-parser.add_argument('--seed', type=int, default=2019, help='random seed (default: 1)')
-parser.add_argument('--enc_drop', type=float, default=0.0, help='dropout rate on encoder')
-parser.add_argument('--clip', type=float, default=0.0, help='gradient clipping')
-parser.add_argument('--nonmono', type=int, default=10, help='number of bad hits allowed')
-parser.add_argument('--wdecay', type=float, default=1.2e-6, help='some l2 regularization')
-parser.add_argument('--anneal_lr', type=int, default=0, help='whether to anneal the learning rate or not')
-parser.add_argument('--bow_norm', type=int, default=1, help='normalize the bows or not')
+lr lt=0.005
+lr_factor lt=4.0
+epochs =20
+mode ='train'
+optimizer ='adam'
+seed =2019
+enc_drop lt=0.0
+clip lt=0.0
+nonmono =10
+wdecay lt=1.2e-6
+anneal_lr =0
+bow_norm =1
 
 ### evaluation, visualization, and logging-related arguments
-parser.add_argument('--num_words', type=int, default=10, help='number of words for topic viz')
-parser.add_argument('--log_interval', type=int, default=2, help='when to log training')
-parser.add_argument('--visualize_every', type=int, default=10, help='when to visualize results')
-parser.add_argument('--eval_batch_size', type=int, default=1000, help='input batch size for evaluation')
-parser.add_argument('--load_from', type=str, default='', help='the name of the ckpt to eval from')
-parser.add_argument('--tc', type=int, default=0, help='whether to compute topic coherence or not')
-parser.add_argument('--td', type=int, default=0, help='whether to compute topic diversity or not')
+num_words =10
+log_interval =2
+visualize_every =10
+eval_batch_size =1000
+load_from =''
+tc =0
+td =0
 
 args = parser.parse_args()
 
@@ -206,8 +206,8 @@ def visualize(m, show_emb=True):
 
     m.eval()
 
-    queries = ['andrew', 'computer', 'sports', 'religion', 'man', 'love', 
-                'intelligence', 'money', 'politics', 'health', 'people', 'family']
+    queries = ['cleaner', 'refrigerate', 'tupperware', 'curry', 'baby', 'weather', 'buffet', 
+                            'ninja', 'fingernail']
 
     ## visualize topics using monte carlo
     with torch.no_grad():
@@ -371,8 +371,8 @@ else:
                 rho_etm = model.rho.weight.cpu()
             except:
                 rho_etm = model.rho.cpu()
-            queries = ['andrew', 'woman', 'computer', 'sports', 'religion', 'man', 'love', 
-                            'intelligence', 'money', 'politics', 'health', 'people', 'family']
+            queries = ['cleaner', 'refrigerate', 'tupperware', 'curry', 'baby', 'weather', 'buffet', 
+                            'ninja', 'fingernail']
             print('\n')
             print('ETM embeddings...')
             for word in queries:
